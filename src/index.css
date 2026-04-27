@@ -1,0 +1,23 @@
+@import './app.css';
+
+/* Reset y estilos base adicionales */
+
+
+body {
+  min-height: 100%;
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+/* Utilidades de texto */
+.text-gradient {
+  background: linear-gradient(135deg, var(--primary-600), var(--primary-800));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.text-shadow {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
