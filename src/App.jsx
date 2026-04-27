@@ -27,8 +27,8 @@ import AdminBooksPage from './pages/admin/AdminBooksPage'
 import AdminLoansPage from './pages/admin/AdminLoansPage'
 
 // SuperAdmin
-import SuperAdminUsersPage from './pages/superAdmin/SuperAdminUsersPage'
-import SuperAdminLogsPage from './pages/superAdmin/SuperAdminLogsPage'
+import SuperAdminUsersPage from './pages/superadmin/SuperAdminUsersPage'
+import SuperAdminLogsPage from './pages/superadmin/SuperAdminLogsPage'
 
 function App() {
   return (
