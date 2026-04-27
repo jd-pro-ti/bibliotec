@@ -19,10 +19,12 @@ import DashboardPage from './pages/DashboardPage'
 // Usuario
 import UserFavoritesPage from './pages/user/UserFavoritesPage'
 import UserCartPage from './pages/user/UserCartPage'
+import UserPrestamos from './pages/user/Userprestamos'
 
 // Admin
 import AdminUsersPage from './pages/admin/AdminUsersPage'
 import AdminBooksPage from './pages/admin/AdminBooksPage'
+import AdminLoansPage from './pages/admin/AdminLoansPage'
 
 // SuperAdmin
 import SuperAdminUsersPage from './pages/superAdmin/SuperAdminUsersPage'
@@ -59,6 +61,11 @@ function App() {
               <UserCartPage />
             </PrivateRoute>
           } />
+          <Route path="/usuario/prestamos" element={
+            <PrivateRoute requiredRole="user">
+              <UserPrestamos />
+            </PrivateRoute>
+          } />
 
           {/* Admin */}
           <Route path="/admin/usuarios" element={
@@ -71,11 +78,22 @@ function App() {
               <AdminBooksPage />
             </PrivateRoute>
           } />
+          <Route path="/admin/prestamos" element={
+            <PrivateRoute requiredRole="admin">
+              <AdminLoansPage />
+            </PrivateRoute>
+          } />
 
           {/* SuperAdmin */}
           <Route path="/superadmin/usuarios" element={
             <PrivateRoute requiredRole="superadmin">
               <SuperAdminUsersPage />
+            </PrivateRoute>
+          } />
+          {/* ✅ Ruta agregada para préstamos de superadmin */}
+          <Route path="/superadmin/prestamos" element={
+            <PrivateRoute requiredRole="superadmin">
+              <AdminLoansPage />
             </PrivateRoute>
           } />
           <Route path="/superadmin/logs" element={

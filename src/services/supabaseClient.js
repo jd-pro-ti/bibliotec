@@ -1,3 +1,4 @@
+
 import { supabase } from '../config/supabase'
 
 const withTimeout = async (promise, timeoutMs = 5000) => {
@@ -208,6 +209,127 @@ export const clearCart = async (userId) => {
     return { success: false, error: error.message }
   }
 }
+
+// ==================== PRÉSTAMOS ====================
+
+// Crear un nuevo préstamo
+export const createLoan = async (userId, book) => {
+  try {
+    const dueDate = new Date();
+    dueDate.setDate(dueDate.getDate() + 14); // Préstamo por 14 días
+
+    const { data, error } = await supabase
+      .from('book_loans')
+      .insert({
+        user_id: userId,
+        book_id: book.id,
+        book_title: book.volumeInfo?.title,
+        book_thumbnail: book.volumeInfo?.imageLinks?.thumbnail || null,
+        due_date: dueDate.toISOString(),
+        status: 'active',
+        loan_date: new Date().toISOString()
+      })
+      .select()
+      .single();
+
+    if (error) throw error;
+    return { success: true, data };
+  } catch (error) {
+    console.error('Error creating loan:', error);
+    return { success: false, error: error.message };
+  }
+};
+
+// Obtener préstamos del usuario actual
+export const getUserLoans = async (userId) => {
+  try {
+    const { data, error } = await supabase
+      .from('book_loans')
+      .select('*')
+      .eq('user_id', userId)
+      .order('loan_date', { ascending: false });
+
+    if (error) throw error;
+    return { success: true, data: data || [] };
+  } catch (error) {
+    console.error('Error getting user loans:', error);
+    return { success: false, data: [] };
+  }
+};
+
+// Obtener todos los préstamos (solo admin/superadmin)
+export const getAllLoans = async () => {
+  try {
+    const { data, error } = await supabase
+      .from('book_loans')
+      .select(`
+        *,
+        profiles:user_id (
+          email,
+          full_name,
+          role
+        )
+      `)
+      .order('loan_date', { ascending: false });
+
+    if (error) throw error;
+    return { success: true, data: data || [] };
+  } catch (error) {
+    console.error('Error getting all loans:', error);
+    return { success: false, data: [] };
+  }
+};
+
+// Actualizar estado de préstamo (devolver libro)
+export const returnLoan = async (loanId) => {
+  try {
+    const { data, error } = await supabase
+      .from('book_loans')
+      .update({
+        return_date: new Date().toISOString(),
+        status: 'returned'
+      })
+      .eq('id', loanId)
+      .select()
+      .single();
+
+    if (error) throw error;
+    return { success: true, data };
+  } catch (error) {
+    console.error('Error returning loan:', error);
+    return { success: false, error: error.message };
+  }
+};
+
+// Renovar préstamo (extender fecha)
+export const renewLoan = async (loanId, daysToAdd = 7) => {
+  try {
+    const { data: currentLoan } = await supabase
+      .from('book_loans')
+      .select('due_date')
+      .eq('id', loanId)
+      .single();
+
+    if (currentLoan) {
+      const newDueDate = new Date(currentLoan.due_date);
+      newDueDate.setDate(newDueDate.getDate() + daysToAdd);
+
+      const { data, error } = await supabase
+        .from('book_loans')
+        .update({ due_date: newDueDate.toISOString() })
+        .eq('id', loanId)
+        .select()
+        .single();
+
+      if (error) throw error;
+      return { success: true, data };
+    }
+    throw new Error('Loan not found');
+  } catch (error) {
+    console.error('Error renewing loan:', error);
+    return { success: false, error: error.message };
+  }
+};
 
 // ==================== SYSTEM LOGS ====================
 export const getSystemLogs = async (limit = 50) => {
