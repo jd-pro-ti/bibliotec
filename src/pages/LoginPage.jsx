@@ -100,38 +100,37 @@ const LoginPage = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 to-indigo-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 animate-fade-in">
-        {/* Logo y título */}
-        <div>
-          <div className="flex justify-center">
-            <div className="w-20 h-20 bg-gradient-to-r from-primary-600 to-primary-500 rounded-2xl flex items-center justify-center shadow-lg">
-              <FiBookOpen className="text-white text-4xl" />
+    <div className="min-h-screen flex items-center justify-center bg-neutral-50 px-4 py-8 sm:px-6">
+      {/* Recuadro principal con borde visible */}
+      <div className="w-full max-w-[28rem] bg-white rounded-2xl border border-neutral-200 shadow-sm">
+        <div className="p-6 sm:p-8">
+          {/* Logo y título */}
+          <div className="text-center mb-8">
+            <div className="inline-flex justify-center mb-4">
+              <div className="w-12 h-12 bg-neutral-900 rounded-xl flex items-center justify-center">
+                <FiBookOpen className="text-white text-2xl" />
+              </div>
             </div>
+            <h1 className="text-2xl font-semibold text-neutral-900 mb-1">
+              Iniciar sesión
+            </h1>
+            <p className="text-sm text-neutral-500">
+              ¿No tienes cuenta?{' '}
+              <Link to="/registro" className="text-neutral-900 font-medium hover:underline transition-all">
+                Regístrate
+              </Link>
+            </p>
           </div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Iniciar Sesión
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            ¿No tienes una cuenta?{' '}
-            <Link to="/registro" className="font-medium text-primary-600 hover:text-primary-500 transition-colors">
-              Regístrate aquí
-            </Link>
-          </p>
-        </div>
 
-        {/* Formulario */}
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="space-y-4">
-            {/* Email */}
+          {/* Formulario */}
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Campo Email */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Correo Electrónico
+              <label htmlFor="email" className="block text-sm font-medium text-neutral-700 mb-1">
+                Correo electrónico
               </label>
-              <div className="mt-1 relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiMail className="h-5 w-5 text-gray-400" />
-                </div>
+              <div className="relative">
+                <FiMail className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 text-base" />
                 <input
                   id="email"
                   name="email"
@@ -140,26 +139,24 @@ const LoginPage = () => {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className={`appearance-none block w-full pl-10 pr-3 py-2 border ${
-                    errors.email ? 'border-red-300' : 'border-gray-300'
-                  } rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition-colors`}
-                  placeholder="tu@email.com"
+                  className={`w-full pl-9 pr-3 py-2 text-base border rounded-lg bg-white transition-all duration-200
+                    focus:outline-none focus:ring-1 focus:ring-neutral-400 focus:border-neutral-400
+                    ${errors.email ? 'border-red-400' : 'border-neutral-200 hover:border-neutral-300'}`}
+                  placeholder="usuario@ejemplo.com"
                 />
               </div>
               {errors.email && (
-                <p className="mt-1 text-xs text-red-600">{errors.email}</p>
+                <p className="mt-1 text-xs text-red-500">{errors.email}</p>
               )}
             </div>
 
-            {/* Contraseña */}
+            {/* Campo Contraseña */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="password" className="block text-sm font-medium text-neutral-700 mb-1">
                 Contraseña
               </label>
-              <div className="mt-1 relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FiLock className="h-5 w-5 text-gray-400" />
-                </div>
+              <div className="relative">
+                <FiLock className="absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400 text-base" />
                 <input
                   id="password"
                   name="password"
@@ -168,93 +165,87 @@ const LoginPage = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  className={`appearance-none block w-full pl-10 pr-10 py-2 border ${
-                    errors.password ? 'border-red-300' : 'border-gray-300'
-                  } rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 sm:text-sm transition-colors`}
+                  className={`w-full pl-9 pr-9 py-2 text-base border rounded-lg bg-white transition-all duration-200
+                    focus:outline-none focus:ring-1 focus:ring-neutral-400 focus:border-neutral-400
+                    ${errors.password ? 'border-red-400' : 'border-neutral-200 hover:border-neutral-300'}`}
                   placeholder="••••••••"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-600 transition-colors"
                 >
-                  {showPassword ? (
-                    <FiEyeOff className="h-5 w-5 text-gray-400 hover:text-gray-600 transition-colors" />
-                  ) : (
-                    <FiEye className="h-5 w-5 text-gray-400 hover:text-gray-600 transition-colors" />
-                  )}
+                  {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
                 </button>
               </div>
               {errors.password && (
-                <p className="mt-1 text-xs text-red-600">{errors.password}</p>
+                <p className="mt-1 text-xs text-red-500">{errors.password}</p>
               )}
             </div>
-          </div>
 
-          {/* Enlace para recuperar contraseña */}
-          <div className="flex justify-end">
-            <Link to="/recuperar-password" className="text-sm text-primary-600 hover:text-primary-500 transition-colors">
-              ¿Olvidaste tu contraseña?
-            </Link>
-          </div>
-
-          {/* Error general */}
-          {errors.submit && (
-            <div className="text-center text-sm text-red-600 bg-red-50 p-3 rounded-lg">
-              {errors.submit}
+            {/* Enlace olvidé contraseña */}
+            <div className="text-right">
+              <Link to="/recuperar-password" className="text-xs text-neutral-500 hover:text-neutral-700 transition-colors">
+                ¿Olvidaste tu contraseña?
+              </Link>
             </div>
-          )}
 
-          {/* Botón de inicio de sesión */}
-          <div>
+            {/* Error general */}
+            {errors.submit && (
+              <div className="text-center text-sm text-red-600 bg-red-50 py-2 px-3 rounded-lg">
+                {errors.submit}
+              </div>
+            )}
+
+            {/* Botón de inicio de sesión */}
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+              className="w-full py-2.5 text-sm font-medium text-white bg-neutral-900 rounded-lg hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-neutral-400 focus:ring-offset-1 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
             >
               {loading ? (
-                <>
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                <div className="flex items-center justify-center gap-2">
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
                   <span>Iniciando sesión...</span>
-                </>
+                </div>
               ) : (
-                <>
-                  <FiLogIn className="mr-2 h-5 w-5" />
-                  Iniciar Sesión
-                </>
+                <div className="flex items-center justify-center gap-2">
+                  <FiLogIn size={16} />
+                  <span>Iniciar sesión</span>
+                </div>
               )}
             </button>
-          </div>
 
-          {/* Separador */}
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300"></div>
+            {/* Separador */}
+            <div className="relative my-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-neutral-200"></div>
+              </div>
+              <div className="relative flex justify-center text-xs">
+                <span className="px-3 bg-white text-neutral-400">o</span>
+              </div>
             </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">O continúa con</span>
-            </div>
-          </div>
 
-          {/* Botón de Google */}
-          <div>
+            {/* Botón de Google */}
             <button
               type="button"
               onClick={handleGoogleLogin}
               disabled={loading}
-              className="w-full flex justify-center items-center py-2 px-4 border border-gray-300 rounded-lg shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+              className="w-full py-2.5 text-sm font-medium text-neutral-700 bg-white border border-neutral-200 rounded-lg hover:bg-neutral-50 hover:border-neutral-300 focus:outline-none focus:ring-2 focus:ring-neutral-200 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
             >
-              <FcGoogle className="mr-2 h-5 w-5" />
-              Continuar con Google
+              <div className="flex items-center justify-center gap-2">
+                <FcGoogle size={18} />
+                <span>Continuar con Google</span>
+              </div>
             </button>
-          </div>
-        </form>
+          </form>
 
-        {/* Enlace para volver al inicio */}
-        <div className="text-center">
-          <Link to="/" className="text-sm text-gray-500 hover:text-gray-700 transition-colors">
-            ← Volver al inicio
-          </Link>
+          {/* Enlace volver al inicio */}
+          <div className="mt-8 text-center">
+            <Link to="/" className="text-xs text-neutral-400 hover:text-neutral-600 transition-colors">
+              ← Volver al inicio
+            </Link>
+          </div>
         </div>
       </div>
     </div>

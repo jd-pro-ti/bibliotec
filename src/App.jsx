@@ -10,6 +10,8 @@ import LoginPage from './pages/LoginPage'
 import RegisterPage from './pages/RegisterPage'
 import BookDetailPage from './pages/BookDetailPage'
 import NotFoundPage from './pages/NotFoundPage'
+import PopularesPage from './pages/populares'
+import VisionPage from './pages/VisionPage'
 
 // Páginas protegidas
 import DashboardPage from './pages/DashboardPage'
@@ -36,6 +38,8 @@ function App() {
           <Route path="/libro/:bookId" element={<BookDetailPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/registro" element={<RegisterPage />} />
+          <Route path="/populares" element={<PopularesPage />} />
+          <Route path="/vision" element={<VisionPage />} />
 
           {/* Dashboard (redirige según rol) */}
           <Route path="/dashboard" element={

@@ -1,17 +1,48 @@
+// utils/validators.js
+
 export const validators = {
-  required: (value) => !value || value.trim() === '' ? 'Este campo es requerido' : null,
+  required: (value) => {
+    if (!value || String(value).trim() === '') {
+      return 'Este campo es requerido'
+    }
+    return null
+  },
+
   email: (value) => {
-    if (!value) return null
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return !emailRegex.test(value) ? 'Correo electrónico inválido' : null
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/
+    if (!emailRegex.test(value)) {
+      return 'Ingresa un correo electrónico válido'
+    }
+    return null
   },
-  minLength: (min) => (value) => {
-    if (!value) return null
-    return value.length < min ? `Mínimo ${min} caracteres` : null
+
+  password: (value) => {
+    if (value.length < 8) {
+      return 'La contraseña debe tener al menos 8 caracteres'
+    }
+    if (!/[A-Z]/.test(value)) {
+      return 'La contraseña debe tener al menos una mayúscula'
+    }
+    if (!/[a-z]/.test(value)) {
+      return 'La contraseña debe tener al menos una minúscula'
+    }
+    if (!/[0-9]/.test(value)) {
+      return 'La contraseña debe tener al menos un número'
+    }
+    return null
   },
-  maxLength: (max) => (value) => {
-    if (!value) return null
-    return value.length > max ? `Máximo ${max} caracteres` : null
+
+  name: (value) => {
+    if (value.length < 2) {
+      return 'El nombre debe tener al menos 2 caracteres'
+    }
+    if (value.length > 100) {
+      return 'El nombre no puede exceder los 100 caracteres'
+    }
+    if (!/^[a-zA-ZáéíóúñÁÉÍÓÚÑ\s]+$/.test(value)) {
+      return 'El nombre solo puede contener letras y espacios'
+    }
+    return null
   }
 }
 
@@ -19,9 +50,22 @@ export const validateForm = (formData, rules) => {
   const errors = {}
   let isValid = true
 
-  for (const [field, fieldRules] of Object.entries(rules)) {
+  for (const field in rules) {
+    const fieldRules = rules[field]
+    
+    if (!Array.isArray(fieldRules)) {
+      console.error(`Las reglas para "${field}" deben ser un array`)
+      continue
+    }
+
     for (const rule of fieldRules) {
-      const error = rule(formData[field])
+      if (typeof rule !== 'function') {
+        console.error(`La regla para "${field}" no es una función:`, rule)
+        continue
+      }
+
+      const error = rule(formData[field], formData)
+      
       if (error) {
         errors[field] = error
         isValid = false
